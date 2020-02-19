@@ -56,3 +56,7 @@ cleaned1 <- cleaned[!(cleaned=="D")]
 length(cleaned1)
 lm(df$Sediment0[df$Mortality=="A"]~cleaned1)
 #nope
+
+
+#principle component analysis of compositional oaoer
+#want it to capture 60-70% of the variance
