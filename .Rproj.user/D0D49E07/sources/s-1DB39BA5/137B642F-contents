@@ -1,4 +1,6 @@
-#========Sediment Analysis =====================================================
+#         Sediment Analysis
+
+#======== Set up variables =====================================================
 #Add up sediment columns
 microns4000 <- sum(df$Sediment4000[!is.na(df$Sediment4000)])
 microns2000 <- sum(df$Sediment2000[!is.na(df$Sediment2000)])
@@ -8,16 +10,49 @@ microns125 <- sum(df$Sediment125[!is.na(df$Sediment125)])
 microns63 <- sum(df$Sediment63[!is.na(df$Sediment63)])
 micron.pan <- sum(df$Sediment0[!is.na(df$Sediment0)])
 
+#Number of live clams
+clams.A <- sum(df$Mortality == "A")
+
+#Number of dead halves
+clams.D <- sum(df$Mortality == "D")
+
 #make dataframe with all the sediment sums
-sediment.sums <- c(micron.pan, microns125, microns63, microns125, microns250,
-                   microns500, microns2000, microns4000)
-names(sediment.sums) <- c("micron.pan", "microns125", "microns63", "microns125", 
-                          "microns250", "microns500", "microns2000", 
-                          "microns4000")
+sediment.sums <- c(micron.pan, microns125, microns63, 
+                   microns125, microns250,microns500, 
+                   microns2000, microns4000)
+  #name the variable of sediment.sums
+  names(sediment.sums) <- c("micron.pan", "microns125", "microns63", 
+                          "microns125", "microns250","microns500", 
+                          "microns2000",  "microns4000")
+
+#======== Analyze and Visualize ================================================
+
+##Visualize distribution of sediment
 #visualize sediment sums
 barplot(sediment.sums, las=2,cex.names=1)
 # noting much higher amounts in the larger grain sizes
 
 
+##Look at Correlations between clams and sediment characteristics
+summary(lm(df$Sediment0 ~ df$Mortality))
 
 
+
+#Try to get the Correlations for live clams
+lm(micron.pan~clams.A)
+summary(lm(micron.pan~clams.A))
+summary(lm(microns63~clams.A))
+
+#Isolate live clams
+test <- lm(df$Sediment0[df$Mortality=="A"]~df$Mortality[!(df$Mortality=="Z")(df$Mortality=="D")])
+summary(test)
+#test length of vectors
+length(df$Mortality[!(df$Mortality=="Z"),(df$Mortality=="D")])
+length(df$Mortality =="A")
+length(df$Sediment0[!df$Mortality=="A"])
+#another attmept
+cleaned <- df$Mortality[!(df$Mortality=="Z")]
+cleaned1 <- cleaned[!(cleaned=="D")]
+length(cleaned1)
+lm(df$Sediment0[df$Mortality=="A"]~cleaned1)
+#nope
