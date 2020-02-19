@@ -1,0 +1,161 @@
+working.dir<-getwd()
+#
+#one can use R for things like log and ln
+log(e,1)
+#a vector can have many variables though the usage of c(), which is the concatenate funtion
+x<-c(14,2,-19,22,99,-45,33,-66,87,21)
+x
+is.vector(x)
+#is.vector(x) proves that "x" is indeed a variable
+x[5]
+#x[5] shows that the fifth variable of x is 99
+x[1:3]
+#x[1:3] shows what the variables are in the spots 1-3 (in this case 14, 2, -19)
+length(x)
+x[2]<-0
+#length() will show how many variables are in the vector between the ()s
+#Just realizing I didn't need to do this part so I am skipping down to where the assignment starts (or where I think it starts)
+#
+#
+#FLYING SNAKES
+#AHHHHHHHHHHHHHH
+#
+undulation<-c(0.9, 1.4, 1.2, 1.2, 1.3, 2.0, 1.4, 1.6)
+length(undulation)
+#number of observations is 8
+hist(undulation)
+#there are 2 numbers between 1.0 and 1.2 (1.2 and 1.2).
+#R is combining these because they are equal to 1.2 or are inbetween 1.0 and 1.2
+#perhaps a better example is in the interval 1.2-1.4 which includes 3 observations (1.3,1.4,1.4)
+hist(undulation, right = FALSE)
+#now the 2 observations (1.2 and 1.2) are in the next bin (1.2-1.4) along with the observation=1.3.
+x*2*pi
+#now the 2 observations (1.2 and 1.2) are in the next bin (1.2-1.4) along with the observation=1.3.
+undulation*2*pi
+undulation*2*pi
+#now the 2 observations (1.2 and 1.2) are in the next bin (1.2-1.4) along with the observation=1.3.
+transform(undulation*2*pi)
+undulation
+#by multyplying undulation by 2pi I have converted the observations into radians per second from hertz
+transform.data.frame(undulation)
+#now the 2 observations (1.2 and 1.2) are in the next bin (1.2-1.4) along with the observation=1.3.
+undulation<-(undulation*2*pi)
+#by multyplying undulation by 2pi I have converted the observations into radians per second from hertz
+undulationsum<-sum(undulation)
+#undulationsum is now the sum of all of the observations
+undulationsum/8
+undulationmean<-undulationsum/8
+#undulationmean is now the mean frequency from the observations
+2^2
+#undulationmean is now the mean frequency from the observations
+undulation[1]
+#undulationmean is now the mean frequency from the observations
+sqrt((((undulation[1]-undulationmean)+(undulation[2]-undulationmean)+(undulation[3]-undulationmean)+(undulation[4]-undulationmean)+(undulation[5]-undulationmean)+(undulation[6]-undulationmean)+(undulation[7]-undulationmean)+(undulation[8]-undulationmean))^2))/8)
+#undulationmean is now the mean frequency from the observations
+sqrt((((undulation[1]-undulationmean)+(undulation[2]-undulationmean)+(undulation[3]-undulationmean)+(undulation[4]-undulationmean)+(undulation[5]-undulationmean)+(undulation[6]-undulationmean)+(undulation[7]-undulationmean)+(undulation[8]-undulationmean))^2)/8)
+sd(undulation)
+#undulationmean is now the mean frequency from the observations
+sqrt(((undulation[1]-undulationmean)^2+(undulation[2]-undulationmean)^2+(undulation[3]-undulationmean)^2+(undulation[4]-undulationmean)^2+(undulation[5]-undulationmean)^2+(undulation[6]-undulationmean)^2+(undulation[7]-undulationmean)^2+(undulation[8]-undulationmean)^2)/8)
+#undulationmean is now the mean frequency from the observations
+sqrt((((undulation[1]-undulationmean)^2)+((undulation[2]-undulationmean)^2)+((undulation[3]-undulationmean)^2)+((undulation[4]-undulationmean)^2)+((undulation[5]-undulationmean)^2)+((undulation[6]-undulationmean)^2)+((undulation[7]-undulationmean)^2)+((undulation[8]-undulationmean)^2)/8)
+#undulationmean is now the mean frequency from the observations
+sqrt(((undulation[1]-undulationmean)^2)+((undulation[2]-undulationmean)^2)+((undulation[3]-undulationmean)^2)+((undulation[4]-undulationmean)^2)+((undulation[5]-undulationmean)^2)+((undulation[6]-undulationmean)^2)+((undulation[7]-undulationmean)^2)+((undulation[8]-undulationmean)^2)/8)
+#undulationsum is now the sum of all of the observations
+undulationsum/8
+sd(undulation)
+#undulationmean is now the mean frequency from the observations
+sqrt(((undulation[1]-undulationmean)^2)+((undulation[2]-undulationmean)^2)+((undulation[3]-undulationmean)^2)+((undulation[4]-undulationmean)^2)+((undulation[5]-undulationmean)^2)+((undulation[6]-undulationmean)^2)+((undulation[7]-undulationmean)^2)+((undulation[8]-undulationmean)^2)/8)
+#undulationmean is now the mean frequency from the observations
+sqrt((((undulation[1]-undulationmean)^2)+((undulation[2]-undulationmean)^2)+((undulation[3]-undulationmean)^2)+((undulation[4]-undulationmean)^2)+((undulation[5]-undulationmean)^2)+((undulation[6]-undulationmean)^2)+((undulation[7]-undulationmean)^2)+((undulation[8]-undulationmean)^2))/8)
+#undulationmean is now the mean frequency from the observations
+sqrt((((undulation[1]-undulationmean)^2)+((undulation[2]-undulationmean)^2)+((undulation[3]-undulationmean)^2)+((undulation[4]-undulationmean)^2)+((undulation[5]-undulationmean)^2)+((undulation[6]-undulationmean)^2)+((undulation[7]-undulationmean)^2)+((undulation[8]-undulationmean)^2))/(8-1))
+#by deviding the sum by the number of observations, earlier proven to be 8, we can find the mean
+undulationmean<-undulationsum/8 
+#undulationmean is now the mean frequency from the observations
+sqrt((((undulation[1]-undulationmean)^2)+((undulation[2]-undulationmean)^2)+((undulation[3]-undulationmean)^2)+((undulation[4]-undulationmean)^2)+((undulation[5]-undulationmean)^2)+((undulation[6]-undulationmean)^2)+((undulation[7]-undulationmean)^2)+((undulation[8]-undulationmean)^2))/(8-1))
+sd(undulation)
+#using the built int Standard Deviation function("sd()") I confirmed that R uses standard deviation of a sample (rather than a population), and that the SD=2.035985
+sort(undulation)
+#sorted the observations from smallest to largest
+median.default(undulation)
+#by using the median function I am able to find that the median is 8.4823, which is halfway between 8.168141 and 8.796459
+(sd(undulation))/sqrt(8)
+getwd()
+#
+#
+#
+mydata<-read.csv("anolis.csv")
+str(mydata)
+#this shows what the variables within the data set are
+is.factor(mydata$Island)
+#this shows that "Island" is a variable within the data set
+class(mydata$Island)
+#Returns that the class of "island" is a factor
+class(mydata)
+#returns that the class of "mydata" is data.frame
+head(mydata)
+#shows the top portion of the dataset
+tail(mydata)
+#shows the bottom portion of the data set (the last 5)
+levels(ecomorph)
+#failed (object not found)
+levels(mydata)
+#doesn't work (simply returns "NULL")
+levels(mydata$Ecomorph)
+#WORKED!!!!!!!
+#the first catagory is empty.
+#then there are several categories that are similar but are distinct due to extra spaces
+ecomorph<-mydata$Ecomorph
+#lazy
+table(ecomorph)
+#from this we can see that there is a one trunk that has an extra space
+which(ecomorph=="Trunk-Crown ")
+#showed that the typo is in line 118
+ecomorph[ecomorph=="Trunk-Crown "] <- "Trunk-Crown"
+#has fixed the typo by removing the space
+table(ecomorph)
+#the table now shows that there is no information in the category that is "Trunk-Crown "
+ecomorph[ecomorph=="Trunk-Ground "] <- "Trunk-Ground"
+ecomorph[ecomorph=="Crown-Giant "] <- "Crown-Giant"
+table(ecomorph)
+#the table now shoes that all of the typos have been fixed
+#There are now three empty factors
+ecomorph<-droplevels(ecomorph)
+table(ecomorph)
+#table now shows that the three empty rows are now gone, and are no longer part of the dataset
+
+mydataCOPY<-read_csv("anolis.csv")
+#Importing the file in this way made R delete all of the blank spaces
+table(mydataCOPY$Ecomorph)
+#the most common ecophorm is "Trunk-Ground"
+#the rarest ecophorm is "Trunk"
+table(mydataCOPY$Ecomorph,useNA = "ifany")
+#the species that don't relate to one of the ecophorms are now shown under "<NA>"
+table(mydataCOPY$Island)
+nrow(mydata[mydata$Island == "Jamaica",])
+#there are 6 species of anolis on Jamaica
+nrow(mydata[mydata$Island == "Cuba",])
+#there are 61 species exclusively on Cuba,
+table(mydataCOPY$Island)
+#1 on Cuba+Bahamas, and 1 on Cuba Bahamas and other islands
+nrow(mydataCOPY[grep("Cuba",mydataCOPY$Island),])
+#There are a total of 63 species that live on Cuba
+nrow(mydataCOPY[grep(c("Jamaica", "Hispaniola", "Puerto Rico", "Cuba"),mydataCOPY$Ecomorph),])
+#well that doesn't work
+nrow(mydataCOPY[mydataCOPY$Island %in% ("Jamaica", "Hispaniola", "Puerto Rico", "Cuba"),mydataCOPY$Ecomorph)])
+#Neither did that
+nrow(mydataCOPY[mydataCOPY$Island %in% c("Jamaica", "Hispaniola", "Puerto Rico", "Cuba"),mydataCOPY$Ecomorph)])
+#3rd time is not the charm (more like 15th time)
+#is there a way to do it on one line without making a table? 
+#I guess I am looking for an effective if then function. Maybe I am too used to excel
+#but I give up
+z <- mydataCOPY[mydataCOPY$Island %in% c("Cuba", "Jamaica", "Hispaniola", "Puerto Rico"), ]
+table(z$Island, z$Ecomorph)
+#over all there are more trunk-ground morphs, 
+#however there is the highest count of morphs on one island on Cuba with Grass-Bush@15
+y<- mydataCOPY[!mydataCOPY$Island %in% c("Cuba", "Jamaica", "Hispaniola", "Puerto Rico"), ]
+table(y$Island, y$Ecomorph)
+#trunk-crown is the most common ecomorph found on other islands
+
+
+
