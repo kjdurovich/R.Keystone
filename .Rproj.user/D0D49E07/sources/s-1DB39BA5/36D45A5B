@@ -1,0 +1,33 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1582272382933.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "36D45A5B",
+    "lastKnownWriteTime" : 6340980268279867773,
+    "last_content_update" : 1582272382933,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "64688F96",
+        "caption" : "df.sediment",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=df.sediment&cache_key=64688F96",
+        "displayedObservations" : 586,
+        "environment" : "",
+        "expression" : "df.sediment",
+        "object" : "df.sediment",
+        "preview" : 0,
+        "totalObservations" : 586,
+        "variables" : 7
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

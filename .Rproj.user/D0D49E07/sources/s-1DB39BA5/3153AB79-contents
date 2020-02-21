@@ -1,0 +1,15 @@
+d <- read.csv(paste(wd,"/chickadee.csv", 
+                     sep = ""),
+               stringsAsFactors = FALSE, 
+               strip.white = TRUE, 
+               na.strings = c(NA, ""))
+plot(chick.df$dees~chick.df$mass, xlab="Mass (kg)", ylab = "Dees (count)", las=1 )
+summary(lm(chick.df$dees ~ chick.df$mass))
+model1 <- (lm(chick.df$dees ~ chick.df$mass))
+m.reg.2 <- summary(lm(chick.df$dees ~ 1))
+model2 <- (lm(chick.df$dees ~ 1))
+
+plot(lm(chick.df$dees ~ chick.df$mass))
+
+anova(model1, model2)
+
