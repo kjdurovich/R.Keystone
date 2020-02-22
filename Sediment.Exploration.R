@@ -1,10 +1,17 @@
 #         Sediment Analysis
-library(robCompositions)
-library(EnvStats)
+# library(robCompositions)     # no longer used
+# library(EnvStats)            # no longer used
+library(stats)
+library(dplyr)
 #======== Set up variables =====================================================
 
+#adding a list of intergers to the raw dataframe
+df$observations <- 1:nrow(df)
 #make dataframe with just sediment data
-df.sediment <- df[10:16]
+df.sediment <- df[10:18]
+#remove comment column
+df.sediment$comments <- NULL
+
 #make dataframe only with complete data to avoid errors
 df.sediment <- df.sediment[complete.cases(df.sediment),]
 names.sediment <- c("Sediment4000", "Sediment2000", "Sediment500", "Sediment250", 
@@ -27,11 +34,11 @@ clams.A <- sum(df$Mortality == "A")
 clams.D <- sum(df$Mortality == "D")
 
 #make dataframe with all the sediment sums
-sediment.sums <- c(micron.pan, microns125, microns63, 
+sediment.sums <- c(micron.pan, microns63, 
                    microns125, microns250,microns500, 
                    microns2000, microns4000)
   #name the variable of sediment.sums
-  names(sediment.sums) <- c("micron.pan", "microns125", "microns63", 
+  names(sediment.sums) <- c("micron.pan", "microns63", 
                           "microns125", "microns250","microns500", 
                           "microns2000",  "microns4000")
 
@@ -43,7 +50,7 @@ barplot(sediment.sums, las=2,cex.names=1)
 # noting much higher amounts in the larger grain sizes
 
 
-# ##Look at Correlations between clams and sediment characteristics
+#======== Look at Correlations between clams and sediment characteristics=======
 # summary(lm(df$Sediment500 ~ df$Mortality-1))
 # summary(lm(df$Sediment500 ~ df$Mortality))
 # #Try to get the Correlations for live clams
@@ -77,30 +84,15 @@ barplot(sediment.sums, las=2,cex.names=1)
 #   #of the variance.
 # 
 
-#======== Working with principle component analysis of compositional data.1 ====
- ####this was my original attempt that I later moved away from 
-
-# 
-# # robust estimation:
-# res.rob <- pcaCoDa(df.sediment)
-# res.rob
-# summary(res.rob)
-# plot(res.rob)
-# 
-# 
-# ## classical estimation:
-# res.cla <- pcaCoDa(df.sedimentno0, method="classical")
-#    #running into errors, removing 0's might work?
-# biplot(res.cla)
-# 
-# #test which varables are infitite to understand what is happening, why the error
-# is.infinite(df.sediment$Sediment4000)
 
 #======== Working with principle component analysis of compositional data.2 ====
 
 # to normalize the sediment data I used the  geometric mean.
 # this allows me to use a standard PCA 
-  
+
+  #remove rows with 0 from the dataset
+  df.sediment <- df.sediment[!(df.sediment$Sediment0==0),]
+  df.sediment <- df.sediment[!(df.sediment$Sediment125==0),]
 
 #create a geometric mean function 
   gm_mean = function(x, na.rm=TRUE, zero.propagate = FALSE){
@@ -135,4 +127,38 @@ df.sediment$normSediment250 <- log(df.sediment$Sediment250/geo.means[4])
 df.sediment$normSediment125 <- log(df.sediment$Sediment125/geo.means[5])
 df.sediment$normSediment63 <- log(df.sediment$Sediment63/geo.means[6])
 df.sediment$normSediment0 <- log(df.sediment$Sediment0/geo.means[7])
+
+
+##Running the PCA
+
+#Run a PCA on the normalized sediment data
+sediment.pca <- prcomp(df.sediment[9:15], center = TRUE, scale. = TRUE)
+plot(sediment.pca, type ="l")
+#summarize PCA data
+summary(sediment.pca)
+#visualize PCA data
+biplot(sediment.pca, center = TRUE, scale. = TRUE)
+
+#make sure I am using correlation matrix 
+
+#analyzing PCA data
+sediment.pca.var <- sediment.pca$sdev^2
+
+#look at what influence variables have on principle components
+sediment.pca$rotation
+abs(sediment.pca$rotation)
+
+
+#values for each value for each PCA axis
+sediment.pca$x
+#write first column to df.sediment in a new column as sediment characteristic data
+df.sediment$PC1 <- sediment.pca$x
+
+#make a new dataset for ANCOVA Tests
+df.Anconva <- left_join(df, select(df.sediment, 16), by = "observations")
+  #Need to trouble shoot and make this all work. One option is to resolve the 
+   #error, the other is to join both datasets in their entirety and then delete
+   #unnneeded columns. This data set will then be exported to the dataset folder
+
+
 

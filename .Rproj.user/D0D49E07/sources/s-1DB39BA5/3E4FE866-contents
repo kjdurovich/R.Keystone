@@ -28,4 +28,20 @@ df <- read.csv(paste(wd,"/PCPP.RAW.DATA.csv",
                stringsAsFactors = FALSE, 
                strip.white = TRUE, 
                na.strings = c(NA, ""))
+   #rename column through duplication and remove old name
+df$comments <- df$X
+df$X <- NULL
+#======== 2. Notes =============================================================
+
+#Normalizingsediment data using the geometric mean
+  #rescaling the proportion of each sediment type in each sample to the geometric 
+  #mean of the sediment types proportion across all samples
+
+
+
+#NOTES FROM MARJORIE
+  #1. multivariante index of sediment compostition from PCA
+  #2. distribution paramater of sediment composition (skewness, kurtosis)
+  #3. univavarniate index e.g. modal sediment type
+
 
