@@ -3,6 +3,7 @@
 # library(EnvStats)            # no longer used
 library(stats)
 library(dplyr)
+library(car)
 #======== Set up variables =====================================================
 #adding a list of intergers to the raw dataframe
 df$observations <- 1:nrow(df)
@@ -13,9 +14,8 @@ df.sediment$comments <- NULL
 
 #make dataframe only with complete data to avoid errors
 df.sediment <- df.sediment[complete.cases(df.sediment),]
-names.sediment <- c("Sediment4000", "Sediment2000", "Sediment500", "Sediment250", 
-                    "Sediment125", "Sediment63", "Sediment0")
-
+names.sediment <- c("Sediment4000", "Sediment2000", "Sediment500", 
+                    "Sediment250", "Sediment125", "Sediment63", "Sediment0")
 
 #Add up sediment columns -- to be turned into a loop later
 microns4000 <- sum(df$Sediment4000[!is.na(df$Sediment4000)])
@@ -42,14 +42,11 @@ sediment.sums <- c(micron.pan, microns63,
                           "microns2000",  "microns4000")
 
   
-#======== Visualize ============================================================
-
-##Visualize distribution of sediment
-#visualize sediment sums
+#======== Visualize Sediment Data ==============================================
+#Visualize distribution of sediment
+   #visualize sediment sums
 barplot(sediment.sums, las=2,cex.names=1)
-# noting much higher amounts in the larger grain sizes
-
-
+# note much higher amounts in the larger grain sizes
 
 #======== Working with principle component analysis of compositional data to ===
   #====== Noramalize and Reduce Sediment Data to one varaiable =================
@@ -167,8 +164,22 @@ plot((df.Ancova$Elevation~df.Ancova$DownStreamTotal), ylab ="Tidal Elevation",
     #Distance from Stream correlation with other explanitory variable
 summary(lm(df.Ancova$StreamDistance~df.Ancova$StreamSide)) #Side of Stream 
 
-#======== Test for normality and homogeneity of variance =======================
-plot((df.Ancova$Elevation~df.Ancova$DownStreamTotal))
+#======== Test for normality and homogeneity of variances between response and =
+  #======== and explanitory variables ==========================================
+barplot( df.Ancova$Mortality, df.Ancova$StreamSide)
+
+boxplot( df.Ancova$StreamSide, df.Ancova$Mortality)
+
+ #Shapiro Wilks-- Testing for normality within each variable
+shapiro.test(df.Ancova$StreamDistance, df.Ancova$Mortality)
+shapiro.test(df.Ancova$DepthBin)
+
+
+#check that the resisduals are normally distributed for continous variables
+mod <- (df.Ancova$Mortality~df.Ancova$Elevation)
+plot(df$Elevation, df$Mortality)
+
+hist(df.Ancova$DepthBin)
 
 #======== Save files =======================================================
 #Save datframes
