@@ -4,7 +4,6 @@
 library(stats)
 library(dplyr)
 #======== Set up variables =====================================================
-
 #adding a list of intergers to the raw dataframe
 df$observations <- 1:nrow(df)
 #make dataframe with just sediment data
@@ -42,7 +41,8 @@ sediment.sums <- c(micron.pan, microns63,
                           "microns125", "microns250","microns500", 
                           "microns2000",  "microns4000")
 
-#======== Analyze and Visualize ================================================
+  
+#======== Visualize ============================================================
 
 ##Visualize distribution of sediment
 #visualize sediment sums
@@ -50,42 +50,9 @@ barplot(sediment.sums, las=2,cex.names=1)
 # noting much higher amounts in the larger grain sizes
 
 
-#======== Look at Correlations between clams and sediment characteristics=======
-# summary(lm(df$Sediment500 ~ df$Mortality-1))
-# summary(lm(df$Sediment500 ~ df$Mortality))
-# #Try to get the Correlations for live clams
-# lm(micron.pan~clams.A)
-# summary(lm(micron.pan~clams.A))
-# summary(lm(microns63~clams.A))
-# 
-# #Isolate live clams
-# test <- lm(df$Sediment0[df$Mortality=="A"]~df$Mortality[!(df$Mortality=="Z")(df$Mortality=="D")])
-# summary(test)
-# #test length of vectors
-# length(df$Mortality[!(df$Mortality=="Z"),(df$Mortality=="D")])
-# length(df$Mortality =="A")
-# length(df$Sediment0[!df$Mortality=="A"])
-# #another attmept
-# cleaned <- df$Mortality[!(df$Mortality=="Z")]
-# cleaned1 <- cleaned[!(cleaned=="D")]
-# length(cleaned1)
-# lm(df$Sediment0[df$Mortality=="A"]~cleaned1)
-# #nope
-# 
-# #regression with just live clams
-#   #make a dataset just with live clams
-# df1 <- df[grepl("A",df$Mortality),]
-#   #make regression with just live clams
-# lm(df1$Sediment0~df1$Mortality)
-# 
-# #talked with Thor and we came to the conclusion that the approach that I was 
-#   #taking was not effective and that I should use principle component analysis 
-#   #of compositional data and to aim for a variable that describes atleast 60-70% 
-#   #of the variance.
-# 
 
-
-#======== Working with principle component analysis of compositional data.2 ====
+#======== Working with principle component analysis of compositional data to ===
+  #====== Noramalize and Reduce Sediment Data to one varaiable =================
 
 # to normalize the sediment data I used the  geometric mean.
 # this allows me to use a standard PCA 
@@ -139,6 +106,7 @@ summary(sediment.pca)
 #visualize PCA data
 biplot(sediment.pca, center = TRUE, scale. = TRUE)
 
+
 #make sure I am using correlation matrix 
 
 #analyzing PCA data
@@ -152,11 +120,91 @@ abs(sediment.pca$rotation)
 #values for each value for each PCA axis
 sediment.pca$x
 #write first column to df.sediment in a new column as sediment characteristic data
-df.sediment$PC1 <- sediment.pca$x
+df.sediment$PC1 <- sediment.pca$x[,1]
 
 #make a new dataset for ANCOVA Tests
-df.Anconva <- left_join(df, select(df.sediment, 16), by = "observations")
-  #Need to trouble shoot and make this all work. One option is to resolve the 
+df.Ancova <- left_join(df, df.sediment, by = "observations")
+
+#remove unneccesary rows
+df.Ancova[10:32] <- NULL
+
+#make a column with the total distance downstream
+df.Ancova$DownStreamTotal <- df.Ancova$DownStream+df.Ancova$SubDownStream
+#save file
+
+#remove Downstream 
+df.Ancova$DownStream <- NULL
+#remove SubDownStream
+df.Ancova$SubDownStream <- NULL
+
+#======== Test for correlation between abiotic (explanatory variables) =========
+  #Sediment correlation with other explanitory variables
+summary(lm(df.Ancova$PC1~df.Ancova$StreamSide))            #Side of stream
+summary(lm(df.Ancova$PC1~df.Ancova$StreamDistance))        #Distance from stream
+summary(lm(df.Ancova$PC1~df.Ancova$DownStreamTotal))       #Distance downstream
+summary(lm(df.Ancova$PC1~df.Ancova$Elevation))             #Tidal Elevation
+summary(lm(df.Ancova$PC1~df.Ancova$DepthBin))              #Bin Depth
+
+  #Bin Depth correlation with other explanitory variables
+summary(lm(df.Ancova$DepthBin~df.Ancova$StreamSide))       #Side of Stream
+summary(lm(df.Ancova$DepthBin~df.Ancova$StreamDistance))   #Distance from stream
+summary(lm(df.Ancova$DepthBin~df.Ancova$DownStreamTotal))  #Distance downstream
+summary(lm(df.Ancova$DepthBin~df.Ancova$Elevation))        #Tidal Elevation
+  
+  #Tidal Elevation correlation with other explanitory variables
+summary(lm(df.Ancova$Elevation~df.Ancova$StreamSide))      #Side of Stream
+summary(lm(df.Ancova$Elevation~df.Ancova$StreamDistance))  #Distance from stream
+summary(lm(df.Ancova$Elevation~df.Ancova$DownStreamTotal)) #Distance downstream
+     
+    #There is a strong correlation between tidal elevation and distance down 
+          #stream (r= 0.95) which is visualized in the plot below.
+plot((df.Ancova$Elevation~df.Ancova$DownStreamTotal), ylab ="Tidal Elevation", 
+         xlab = "Distance Downstream") 
+         abline(coef = coef(lm(df.Ancova$Elevation~df.Ancova$DownStreamTotal)))
+       #Therefore downstream is removed from the dataset for the ANCOVAs
+    df.Ancova$DownStreamTotal <- NULL
+  
+    #Distance from Stream correlation with other explanitory variable
+summary(lm(df.Ancova$StreamDistance~df.Ancova$StreamSide)) #Side of Stream 
+
+#======== Test for normality and homogeneity of variance =======================
+plot((df.Ancova$Elevation~df.Ancova$DownStreamTotal))
+
+#======== Save files =======================================================
+#Save datframes
+  #save df.sediment 
+write.csv(df.sediment, paste(path.data.output, "Sediment.Data.csv", sep = ""),
+          row.names = FALSE)
+  #save df.Ancova
+write.csv(df.Ancova, paste(path.data.output, "ANCOVA.data.csv", sep = ""),
+          row.names = FALSE)
+
+#Save plots
+  #Save PCA LinePlot
+pdf(file = paste(path.figures,"PCAlineplot.pdf"),   # Path for saving file
+    width = 5,    # The width of the plot in inches
+    height = 6)   # The height of the plot in inches
+plot(sediment.pca, type ="l")    # Code for plot
+dev.off()         #Save plot
+
+  #Save PCA Biplot
+pdf(file = paste(path.figures,"PCAbiplot.pdf"),     # Path for saving file
+    width = 5,    # The width of the plot in inches
+    height = 6)   # The height of the plot in inches
+biplot(sediment.pca, center = TRUE, scale. = TRUE)  # Code for plot
+dev.off()         #Save plot
+
+  #Save Downstream~Tidal Elevation Regression Plot
+pdf(file = paste(path.figures,"Regresion.pdf"),
+    width = 5,    # The width of the plot in inches
+    height = 6)   # The height of the plot in inches
+plot((df.Ancova$Elevation~df.Ancova$DownStreamTotal), ylab ="Tidal Elevation", 
+     xlab = "Distance Downstream", 
+     abline(coef = coef(lm(df.Ancova$Elevation~df.Ancova$DownStreamTotal))))
+dev.off()         #Save plot
+
+
+ #Need to trouble shoot and make this all work. One option is to resolve the 
    #error, the other is to join both datasets in their entirety and then delete
    #unnneeded columns. This data set will then be exported to the dataset folder
 
