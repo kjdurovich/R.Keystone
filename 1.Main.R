@@ -1,5 +1,17 @@
+#Keegan Durovich
+#Keystone Data Anaysis
 
+################################################################################
+#NOTES
+#Normalizingsediment data using the geometric mean
+#rescaling the proportion of each sediment type in each sample to the geometric 
+#mean of the sediment types proportion across all samples
 
+#Many of the dataframe names contain "ANCOVA" this is because I had initially 
+#planned on using an ANCOVA in this study, I ended up only using linear regression
+
+#Simply running the Main (this script) wil runn the entire analysis and populate
+  #the folders
 
 #======== 1. File Management ===================================================
 
@@ -31,17 +43,12 @@ df <- read.csv(paste(wd,"/PCPP.RAW.DATA.csv",
    #rename column through duplication and remove old name
 df$comments <- df$X
 df$X <- NULL
-#======== 2. Notes =============================================================
-
-#Normalizingsediment data using the geometric mean
-  #rescaling the proportion of each sediment type in each sample to the geometric 
-  #mean of the sediment types proportion across all samples
 
 
+#======== 2. RUN CODE =============================================================
 
-#NOTES FROM MARJORIE
-  #1. multivariante index of sediment compostition from PCA
-  #2. distribution paramater of sediment composition (skewness, kurtosis)
-  #3. univavarniate index e.g. modal sediment type
-
+source("2.Visualize.Data.R")
+source("3.Sediment.Exploration.R")
+source("4.Testing Assumptions.R")
+source("5.Linear Regression.R")
 
