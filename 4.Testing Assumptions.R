@@ -1,19 +1,19 @@
 
 #======== Test for correlation between abiotic (explanatory variables) =========
-#Sediment correlation with other explanitory variables
+#Sediment correlation with other explanatory variables
 summary(lm(df.Ancova.Size$PC1~df.Ancova.Size$StreamSide))            #Side of stream
 summary(lm(df.Ancova.Size$PC1~df.Ancova.Size$StreamDistance))        #Distance from stream
 summary(lm(df.Ancova.Size$PC1~df.Ancova.Size$DownStreamTotal))       #Distance downstream
 summary(lm(df.Ancova.Size$PC1~df.Ancova.Size$Elevation))             #Tidal Elevation
 summary(lm(df.Ancova.Size$PC1~df.Ancova.Size$DepthBin))              #Bin Depth
 
-#Bin Depth correlation with other explanitory variables
+#Bin Depth correlation with other explanatory variables
 summary(lm(df.Ancova.Size$DepthBin~df.Ancova.Size$StreamSide))       #Side of Stream
 summary(lm(df.Ancova.Size$DepthBin~df.Ancova.Size$StreamDistance))   #Distance from stream
 summary(lm(df.Ancova.Size$DepthBin~df.Ancova.Size$DownStreamTotal))  #Distance downstream
 summary(lm(df.Ancova.Size$DepthBin~df.Ancova.Size$Elevation))        #Tidal Elevation
 
-#Tidal Elevation correlation with other explanitory variables
+#Tidal Elevation correlation with other explanatory variables
 summary(lm(df.Ancova.Size$Elevation~df.Ancova.Size$StreamSide))      #Side of Stream
 summary(lm(df.Ancova.Size$Elevation~df.Ancova.Size$StreamDistance))  #Distance from stream
 summary(lm(df.Ancova.Size$Elevation~df.Ancova.Size$DownStreamTotal)) #Distance downstream
@@ -26,7 +26,7 @@ abline(coef = coef(lm(df.Ancova.Size$Elevation~df.Ancova.Size$DownStreamTotal)))
 #Therefore downstream could be removed from the dataset for the ANCOVAs
   #df.Ancova.Size$DownStreamTotal <- NULL
 
-#Distance from Stream correlation with other explanitory variable
+#Distance from Stream correlation with other explanatory variable
 summary(lm(df.Ancova.Size$StreamDistance~df.Ancova.Size$StreamSide)) #Side of Stream 
 
 
@@ -65,7 +65,7 @@ df.Ancova.Density <- aggregate(data=df.Ancova.Density,cbind(APresence,DPresence)
 
 
 #======== Test for normality and homogeneity of variances between response and 
-  #======== and explanitory variables ==========================================
+  #======== and explanatory variables ==========================================
 #check that the resisduals for normality of catagorical variables
 #Side of stream
 #Isolate data for each side of the stream
@@ -119,3 +119,6 @@ leveneTest(df.Ancova.Size.Alive$APresence~df.Ancova.Size.Alive$StreamDistance, c
 #turn Hole depth into catagorical data
 df.Ancova.Size.Alive$DepthBin <- as.factor(df.Ancova.Size.Alive$DepthBin)
 leveneTest(df.Ancova.Size.Alive$APresence~df.Ancova.Size.Alive$StreamDistance, center=mean)
+
+### AT THIS POINT I REMOVED SIDE, and thus my only categorical variable, AND ###
+           ###MOVED TO LINEAR REGRESSION AND MULTIPLE REGRESSION###

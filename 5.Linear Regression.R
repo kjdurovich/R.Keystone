@@ -2,15 +2,15 @@
 #======== Linear Regression for Live Density====================================
  #Visualize the data
 plot(df.Ancova.Density[3:8])
-   #Note no correlations between the explanitory variables
+   #Note no correlations between the explanatory variables
    #Also not a lack of correlations between Alive and Dead pressence and other 
      #variables
 
-#Alive Presence~Stream Distance
+#Alive Presence~Distance from stream 
 summary(lm(df.Ancova.Density$APresence~df.Ancova.Density$StreamDistance))
      #Adjusted R^2 value of 0.058
 
- #Alive Presence~Tidal Elevation
+#Alive Presence~Tidal Elevation
 summary(lm(df.Ancova.Density$APresence~df.Ancova.Density$Elevation))
      #Adjusted R^2 value of -0.001
 
@@ -20,21 +20,25 @@ summary(lm(df.Ancova.Density$APresence~df.Ancova.Density$DepthBin))
 
  #Alive Presence~PC1 of Sediment Data
 summary(lm(df.Ancova.Density$APresence~df.Ancova.Density$PC1))
-     #Adjusted R^2 value of 0.336
+     #Adjusted R^2 value of 0.036
 
  #Dead Presence~Alive Presence
 summary(lm(df.Ancova.Density$DPresence~df.Ancova.Density$APresence))
      #Adjusted R^2 value of 0.0245
 
 #======== Linear Regression for Clam Size====================================
-  #Size~Stream Distance
+  #Size~Distance from Stream
 summary(lm(df.Ancova.Size$Sizemm~df.Ancova.Size$StreamDistance))
+     #Adjusted R^2 value of 0.016
   #Size~Tidal Elevation
 summary(lm(df.Ancova.Size$Sizemm~df.Ancova.Size$Elevation))
+     #Adjusted R^2 value of 0.005
   #Size~Depth Bin
 summary(lm(df.Ancova.Size$Sizemm~df.Ancova.Size$DepthBin))
+     #Adjusted R^2 value of 0.023
   #Size~Sediment PC1
 summary(lm(df.Ancova.Size$Sizemm~df.Ancova.Size$PC1))
+     #Adjusted R^2 value of -0.003
 
 #======== Save files ===========================================================
 #Save datframes
@@ -104,7 +108,7 @@ dev.off()         #Save plot
 
 #'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 #Save Clam Size~Tidal Elevation Boxplot 
-#break plot area into 3 columns
+
 pdf(file = paste(path.figures,"Size.Elevation.pdf"),
     width = 5,    # The width of the plot in inches
     height = 5)   # The height of the plot in inches
@@ -113,7 +117,7 @@ boxplot(df$Sizemm~df$Elevation)
 dev.off() 
 #'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 #Save Clam Size~Depth Bin boxplot
-#break plot area into 3 columns
+
 pdf(file = paste(path.figures,"Size.DepthBin.pdf"),
     width = 5,    # The width of the plot in inches
     height = 5)   # The height of the plot in inches
@@ -122,7 +126,7 @@ boxplot(df$Sizemm~df$DepthBin)
 dev.off() 
 #'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 #Save Clam Size~ Distance Down Stream (Binned in 10m intervals) boxplot
-#break plot area into 3 columns
+
 pdf(file = paste(path.figures,"Size.DistanceDownStream10.pdf"),
     width = 5,    # The width of the plot in inches
     height = 5)   # The height of the plot in inches
@@ -131,10 +135,68 @@ boxplot(df$Sizemm~df$DownStream)
 dev.off() 
 #'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 #Save Clam Size~Total Distance Down Stream boxplot
-#break plot area into 3 columns
+
 pdf(file = paste(path.figures,"Size.TotalDownStream.pdf"),
     width = 5,    # The width of the plot in inches
     height = 5)   # The height of the plot in inches
 #Clam Size~Total Distance Down Stream 
 boxplot(df$Sizemm~df$DownStreamTotal)
 dev.off() 
+
+
+#'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+#Save correlation plots for each explanatory variable
+pdf(file = paste(path.figures,"Correlation.explanatory.Live.pdf"),
+    width = 10,    # The width of the plot in inches
+    height = 3)   # The height of the plot in inches
+par(mfrow=c(1,4))
+
+#Alive Presence~Stream Distance
+plot(df.Ancova.Density$APresence~df.Ancova.Density$StreamDistance, 
+     ylab = "Live Clams", xlab= "Distance from Stream")
+abline(coef=coef(lm(df.Ancova.Density$APresence~df.Ancova.Density$StreamDistance)))
+#Alive Presence~Tidal Elevation
+plot(df.Ancova.Density$APresence~df.Ancova.Density$Elevation,
+     ylab = "Live Clams", xlab= "Tidal Elevation")
+abline(coef=coef(lm(df.Ancova.Density$APresence~df.Ancova.Density$StreamDistance)))
+#Alive Presence~Depth Bin
+plot(df.Ancova.Density$APresence~df.Ancova.Density$DepthBin,
+     ylab = "Live Clams", xlab= "Depth Bin")
+abline(coef=coef(lm(df.Ancova.Density$APresence~df.Ancova.Density$DepthBin)))
+#Alive Presence~PC1 of Sediment Data
+plot(df.Ancova.Density$APresence~df.Ancova.Density$PC1,
+     ylab = "Live Clams", xlab= "Sediment PC1")
+abline(coef=coef(lm(df.Ancova.Density$APresence~df.Ancova.Density$PC1)))
+dev.off() 
+
+
+#'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+#Save correlation plots for each explanatory variable
+pdf(file = paste(path.figures,"Correlation.explanatory.Size.pdf"),
+    width = 10,    # The width of the plot in inches
+    height = 3)   # The height of the plot in inches
+par(mfrow=c(1,4))
+
+#size~Stream Distance
+plot(df.Ancova.Size$Sizemm~df.Ancova.Size$StreamDistance, 
+     ylab = "Clam Size (mm)", xlab= "Distance from Stream")
+abline(coef=coef(lm(df.Ancova.Size$Sizemm~df.Ancova.Size$StreamDistance)))
+#Size~Tidal Elevation
+plot(df.Ancova.Size$Sizemm~df.Ancova.Size$Elevation,
+     ylab = "Clam Size (mm)", xlab= "Tidal Elevation")
+abline(coef=coef(lm(df.Ancova.Size$Sizemm~df.Ancova.Size$StreamDistance)))
+#Size~Depth Bin
+plot(df.Ancova.Size$Sizemm~df.Ancova.Size$DepthBin,
+     ylab = "Clam Size (mm)", xlab= "Depth Bin")
+abline(coef=coef(lm(df.Ancova.Size$Sizemm~df.Ancova.Size$DepthBin)))
+#Size~PC1 of Sediment Data
+plot(df.Ancova.Size$Sizemm~df.Ancova.Size$PC1,
+     ylab = "Clam Size (mm)", xlab= "Sediment PC1")
+abline(coef=coef(lm(df.Ancova.Size$Sizemm~df.Ancova.Size$PC1)))
+dev.off() 
+
+
+#'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+
