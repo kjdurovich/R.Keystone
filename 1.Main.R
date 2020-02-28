@@ -43,7 +43,13 @@ df <- read.csv(paste(wd,"/PCPP.RAW.DATA.csv",
    #rename column through duplication and remove old name
 df$comments <- df$X
 df$X <- NULL
-
+  
+  #import burial data
+data.burial <- read.csv(paste(wd,"/BurialData.csv", 
+                             sep = ""),
+                       stringsAsFactors = FALSE, 
+                       strip.white = TRUE, 
+                       na.strings = c(NA, ""))
 
 #======== 2. RUN CODE =============================================================
 
