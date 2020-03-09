@@ -51,10 +51,39 @@ data.burial <- read.csv(paste(wd,"/BurialData.csv",
                        strip.white = TRUE, 
                        na.strings = c(NA, ""))
 
+
+data.vsur <- read.csv(paste(wd,"/VisualSurveys.csv", 
+                            sep = ""),
+                      stringsAsFactors = FALSE, 
+                      strip.white = TRUE, 
+                      na.strings = c(NA, ""))
+
+if(!require(car)){install.packages("car")}
+library(car)
+if(!require(multcomp)){install.packages("multcomp")}
+library("multcomp")
+if(!require(lsmeans)){install.packages("lsmeans")}
+library(lsmeans)
+if(!require(rcompanion)){install.packages("rcompanion")}
+library(rcompanion)
+if(!require(multcompView)){install.packages("multcompView")}
+library(multcompView)
+if(!require(agricolae)){install.packages("agricolae")}
+library(agricolae)
+if(!require(gamlss)){install.packages("gamlss")}
+library(gamlss)
+if(!require(gamlss.dist)){install.packages("gamlss.dist")}
+library(gamlss.dist)
+if(!require(gamlss.demo)){install.packages("gamlss.demo")}
+library(gamlss.demo)
+if(!require(fitdistrplus)){install.packages("fitdistrplus")}
+library("fitdistrplus")
 #======== 2. RUN CODE =============================================================
 
-source("2.Visualize.Data.R")
-source("3.Sediment.Exploration.R")
-source("4.Testing Assumptions.R")
+
+source("2.Sediment.Exploration.R")
+source("Maps.R")
+source("3.Testing Assumptions.R")
+source("4.Visualize.Data.R")
 source("5.Linear Regression.R")
 

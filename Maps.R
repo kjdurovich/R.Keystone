@@ -1,10 +1,10 @@
-#library(maps)
-#library(mapdata)
+library(maps)
+library(mapdata)
 
 #Make map
-map(database="world",region="USA",  col="gray80", fill=TRUE, xlim = c(-142, -115), ylim = c(43,52.5))
+m <- {map(database="world",region="USA",  col="gray80", fill=TRUE, xlim = c(-142, -115), ylim = c(43,52.5))
 map(database="world",region="Canada",  col="gray80", fill=TRUE, xlim=c(-142,-115),
-    ylim=c(49,55), add = TRUE)
+    ylim=c(49,55), add = TRUE)}
 
 #Add scale
 map.scale(-122, 52,  ratio=FALSE, relwidth=0.18, cex=.7)

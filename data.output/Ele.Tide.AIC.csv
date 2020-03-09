@@ -1,0 +1,9 @@
+"","Explanatory","Distribution","AIC"
+"1","Elevation","gaussian",251.31203206323
+"2","Elevation","Gamma",197.928033471217
+"3","Elevation","Log Normal",185.156239494037
+"4","Elevation","Poisson",224.749801210214
+"5","Tide","gaussian",252.080594947394
+"6","Tide","Gamma",200.307112929626
+"7","Tide","Log Normal",187.196761242683
+"8","Tide","Poisson",226.5662263481

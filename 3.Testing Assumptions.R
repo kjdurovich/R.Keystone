@@ -122,3 +122,4 @@ leveneTest(df.Ancova.Size.Alive$APresence~df.Ancova.Size.Alive$StreamDistance, c
 
 ### AT THIS POINT I REMOVED SIDE, and thus my only categorical variable, AND ###
            ###MOVED TO LINEAR REGRESSION AND MULTIPLE REGRESSION###
+
