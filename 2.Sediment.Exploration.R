@@ -51,8 +51,8 @@ barplot(sediment.sums, las=2,cex.names=1)
 # this allows me to use a standard PCA 
 
   #remove rows with 0 from the dataset
-  df.sediment <- df.sediment[!(df.sediment$Sediment0==0),]
-  df.sediment <- df.sediment[!(df.sediment$Sediment125==0),]
+  # df.sediment <- df.sediment[!(df.sediment$Sediment0==0),]
+  # df.sediment <- df.sediment[!(df.sediment$Sediment125==0),]
 
 #create a geometric mean function 
   gm_mean = function(x, na.rm=TRUE, zero.propagate = FALSE){
@@ -78,6 +78,12 @@ geo.means[4] <- gm_mean(df.sediment$Sediment250)
 geo.means[5] <- gm_mean(df.sediment$Sediment125)
 geo.means[6] <- gm_mean(df.sediment$Sediment63)
 geo.means[7] <- gm_mean(df.sediment$Sediment0)
+geo.means[8] <- gm_mean(df.sediment$Sediment4000+df.sediment$Sediment2000)
+geo.means[9] <- gm_mean(df.sediment$Sediment500+df.sediment$Sediment250+df.sediment$Sediment125+df.sediment$Sediment63)
+geo.means[10] <- gm_mean(df.sediment$Sediment0)
+
+
+
 
 #normalize the data using the geometric mean
 df.sediment$normSediment4000 <- log(df.sediment$Sediment4000/geo.means[1])
@@ -87,6 +93,11 @@ df.sediment$normSediment250 <- log(df.sediment$Sediment250/geo.means[4])
 df.sediment$normSediment125 <- log(df.sediment$Sediment125/geo.means[5])
 df.sediment$normSediment63 <- log(df.sediment$Sediment63/geo.means[6])
 df.sediment$normSediment0 <- log(df.sediment$Sediment0/geo.means[7])
+df.sediment$normGravel <- log((df.sediment$Sediment4000+df.sediment$Sediment2000)/geo.means[8])
+df.sediment$normSand <- log((df.sediment$Sediment500+df.sediment$Sediment250+df.sediment$Sediment125+df.sediment$Sediment63)/geo.means[9])
+df.sediment$normSilt <- log((df.sediment$Sediment0)/geo.means[10])
+
+
 
 
 ##Running the PCA
@@ -99,9 +110,6 @@ summary(sediment.pca)
 #visualize PCA data
 biplot(sediment.pca, center = TRUE, scale. = TRUE)
 
-
-
-sediment.pca$rotation
 #make sure I am using correlation matrix 
 
 #analyzing PCA data
@@ -109,20 +117,23 @@ sediment.pca.var <- sediment.pca$sdev^2
 
 #look at what influence variables have on principle components
 sediment.pca$rotation
-abs(sediment.pca$rotation)
 
 
 #values for each value for each PCA axis
 sediment.pca$x
 #write first column to df.sediment in a new column as sediment characteristic data
 df.sediment$PC1 <- sediment.pca$x[,1]
+#write column of gravel
+df.sediment$gravel <- df.sediment$Sediment4000+df.sediment$Sediment2000
+
 
 #make a new dataset for ANCOVA Tests
 df.Ancova.Size <- left_join(df, df.sediment, by = "observations")
 
+
 #remove unneccesary rows
-df.Ancova.Size[10:18] <- NULL
-df.Ancova.Size[10:23] <- NULL
+df.Ancova.Size[10:32] <- NULL
+
 
 #Add column for total downstream distance
 df.Ancova.Size$DownStreamTotal <- df.Ancova.Size$DownStream+df.Ancova.Size$SubDownStream
@@ -146,12 +157,19 @@ df.sedistream.NS <- df.sedistream.NS[complete.cases(df.sedistream.NS),]
 
 
 #find the mean and ±SD for each sediment type for the north stream center
+  #gravel proportion mean
 mean(df.sedistream.C$gravel)
+  #gavel proportion standard deviation
 sd(df.sedistream.C$gravel)
+  #sand proportion mean
 mean(df.sedistream.C$sand)
+  #sand proportion standard deviation
 sd(df.sedistream.C$sand)
+  #silt proportion mean
 mean(df.sedistream.C$silt)
+  #silt proportion standard deviation
 sd(df.sedistream.C$silt)
+  #number of depth bins on the center of the stream
 nrow(df.sedistream.C)
 
 #find the mean and ±SD for each sediment type for the north stream sides

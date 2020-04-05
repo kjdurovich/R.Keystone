@@ -27,6 +27,7 @@ summary(lm(df.Ancova.Density$DPresence~df.Ancova.Density$APresence))
      #Adjusted R^2 value of 0.0245
 
 
+
 summary(lm(df.Ancova.Density$APresence~df.Ancova.Density$StreamDistance*df.Ancova.Density$PC1*df.Ancova.Density$Elevation*df.Ancova.Density$DepthBin))
 
 
@@ -60,6 +61,10 @@ write.csv(df.Ancova.Size, paste(path.data.output, "ANCOVA.Size.data.csv", sep = 
 #save Ele.Live.AIC
 write.csv(Ele.Tide.AIC, paste(path.data.output,"Ele.Tide.AIC.csv", sep = ""))
 #'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
+#save df.ANCOVA.Holes
+write.csv(df.Ancova.Holes, paste(path.data.output,"Hole.Data.csv", sep = ""))
+#'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+#save df.ANCOVA.Density
+write.csv(df.Ancova.Density, paste(path.data.output,"BurialDepth.Hole.Data.csv", sep = ""))
 #'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 #'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''

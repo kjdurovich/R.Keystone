@@ -1,6 +1,6 @@
-
-
-
+#### Stream Side for Density ###################################################
+Anova(glm(df.Ancova.Density$APresence~df.Ancova.Density$StreamSide, family ="poisson"), type="2", test="F")
+Anova(glm((df.Ancova.Density$DPresence/2)~df.Ancova.Density$StreamSide, family ="poisson"), type="2", test="F")
 #### Alive CLams ###############################################################
 ###Poisson Anova for A Presence   https://rcompanion.org/handbook/J_01.html
 model.a <- glm(APresence~StreamDistance*DepthBin, data=df.Ancova.Density, family="poisson")
@@ -17,89 +17,10 @@ cld(marginal.a,
     adjust="tukey")   ### Tukey adjustment for multiple comparisons
 
 
-#One way Anova for significant variable (StreamDistance)
-model.asd <- glm(APresence~StreamDistance, data=df.Ancova.Density, family="poisson")
-Anova(model.asd, type="2", test="F")
-summary(model.asd)
-
-marginal.asd <-  emmeans(model.asd,
-                       ~ StreamDistance)
-
-pairs(marginal.sd,
-      adjust="tukey")
-
-#One way ANOVAs for significant interaction (StreamDistance*BinDepth)
-#sd into db0
-model.asd0 <- glm(df.Ancova.Density$StreamDistance[df.Ancova.Density$DepthBin==0]~
-                   df.Ancova.Density$DepthBin[df.Ancova.Density$DepthBin==0], 
-                 data=df.Ancova.Density, family="poisson")
-Anova(model.asd0, type="2", test="F")
-summary(model.asd0)
-   #Tukey test
-marginal.asd0 <-  emmeans(model.asd0,
-                       ~ StreamDistance*DepthBin)
-
-pairs(marginal.asd0,
-      adjust="tukey")
-
-#sd into db5
-model.asd5 <- glm(df.Ancova.Density$StreamDistance[df.Ancova.Density$DepthBin==5]~
-                  df.Ancova.Density$DepthBin[df.Ancova.Density$DepthBin==5], 
-                 data=df.Ancova.Density, family="poisson")
-Anova(model.asd5, type="2", test="F")
-summary(model.asd5)
-
-
-#sd into db10
-model.asd10 <- glm(df.Ancova.Density$StreamDistance[df.Ancova.Density$DepthBin==10]~
-                   df.Ancova.Density$DepthBin[df.Ancova.Density$DepthBin==10], 
-                  data=df.Ancova.Density, family="poisson")
-Anova(model.asd10, type="2", test="F")
-summary(model.asd10)
-
-#sd into db15
-model.asd15 <- glm(df.Ancova.Density$StreamDistance[df.Ancova.Density$DepthBin==15]~
-                    df.Ancova.Density$DepthBin[df.Ancova.Density$DepthBin==15], 
-                  data=df.Ancova.Density, family="poisson")
-Anova(model.asd15, type="2", test="F")
-summary(model.asd15)
-
-#db into sd0
-model.adb0 <- glm(df.Ancova.Density$DepthBin[df.Ancova.Density$StreamDistance==0]~
-                   df.Ancova.Density$StreamDistance[df.Ancova.Density$StreamDistance==0],
-                 family = "poisson")
-
-Anova(model.adb0, type = "2", test="F")
-summary(model.adb0)
-
-#db into sd2
-model.adb2 <- glm(df.Ancova.Density$DepthBin[df.Ancova.Density$StreamDistance==2]~
-                   df.Ancova.Density$StreamDistance[df.Ancova.Density$StreamDistance==2],
-                 family = "poisson")
-
-Anova(model.adb2, type = "2", test="F")
-summary(model.adb2)
-
-#db into sd5
-model.adb5 <- glm(df.Ancova.Density$DepthBin[df.Ancova.Density$StreamDistance==5]~
-                   df.Ancova.Density$StreamDistance[df.Ancova.Density$StreamDistance==5],
-                 family = "poisson")
-
-Anova(model.adb5, type = "2", test="F")
-summary(model.adb5)
-
-#db into sd10
-model.adb10 <- glm(df.Ancova.Density$DepthBin[df.Ancova.Density$StreamDistance==10]~
-                   df.Ancova.Density$StreamDistance[df.Ancova.Density$StreamDistance==10],
-                 family = "poisson")
-
-Anova(model.adb10, type = "2", test="F")
-summary(model.adb10)
-
 #### Dead CLams ################################################################
 ###Poisson Anova for D Presence   https://rcompanion.org/handbook/J_01.html
-model.d <- glm(DPresence~StreamDistance*DepthBin, data=df.Ancova.Density, family="poisson")
-Anova(model.d, type="III", test="F")
+model.d <- glm((DPresence/2)~StreamDistance*DepthBin, data=df.Ancova.Density, family="poisson")
+Anova(model.d, type="3", test="F")
 summary(model.d)
 marginal.d <-  emmeans(model.d,
                        ~ StreamDistance*DepthBin)
@@ -112,7 +33,7 @@ cld(marginal.d,
 
 #One way Anova for significant variable (Depth Bin)
 model.ddb <- glm(DPresence~DepthBin, data=df.Ancova.Density, family="poisson")
-Anova(model.ddb, type="3", test="F")
+Anova(model.ddb, type="2", test="F")
 summary(model.ddb)
 
 marginal.ddb <-  emmeans(model.ddb,
@@ -123,9 +44,11 @@ pairs(marginal.ddb,
 
 
 #### Clam Size #################################################################
-
-model.d <- glm(Sizemm~StreamDistance*DepthBin, data=df.Ancova.Size, family="poisson")
-Anova(model.d, type="III", test="F")
+summary(lm(df.Ancova.Size$PC1~df.Ancova.Size$gravel))
+df.Ancova.Size$
+a <- (glm(Sizemm~StreamDistance*DepthBin*Elevation*DepthBin*gravel, data=df.Ancova.Size))
+Anova((glm(Sizemm~StreamDistance*DepthBin*Elevation*DepthBin*gravel, data=df.Ancova.Size)), type="III", test="F")
+Anova((glm(Sizemm~StreamDistance*DepthBin*Elevation*DepthBin*PC1, data=df.Ancova.Size)), type="III", test="F")
 summary(model.d)
 marginal.d <-  emmeans(model.d,
                        ~ StreamDistance*DepthBin)
@@ -148,6 +71,48 @@ df.Ancova.Density <- aggregate(data=df.Ancova.Density,cbind(APresence,DPresence)
                                ~UniqueID + StreamSide + StreamDistance + 
                                  Elevation + DepthBin + PC1,FUN=sum)
 
+
+
+#Check the relation between StreamDistance and DepthBin
+
+
+model.ssd0 <- glm(df.Ancova.Size$StreamDistance[df.Ancova.Size$DepthBin==0]~
+                    df.Ancova.Size$DepthBin[df.Ancova.Size$DepthBin==0], family = "poisson")
+Anova(model.ssd0, type = "2", test="F")
+
+
+model.ssd5 <- glm(df.Ancova.Size$StreamDistance[df.Ancova.Size$DepthBin==5]~
+                    df.Ancova.Size$DepthBin[df.Ancova.Size$DepthBin==5], family = "poisson")
+Anova(model.ssd5, type = "2", test="F")
+
+
+
+model.ssd10 <- glm(df.Ancova.Size$StreamDistance[df.Ancova.Size$DepthBin==10]~
+                    df.Ancova.Size$DepthBin[df.Ancova.Size$DepthBin==10], family = "poisson")
+Anova(model.ssd0, type = "2", test="F")
+
+
+model.ssd15 <- glm(df.Ancova.Size$StreamDistance[df.Ancova.Size$DepthBin==15]~
+                    df.Ancova.Size$DepthBin[df.Ancova.Size$DepthBin==15], family = "poisson")
+Anova(model.ssd15, type = "2", test="F")
+
+
+par(mfrow=c(1,1))
+boxplot(df.Ancova.Size$DepthBin~df.Ancova.Size$StreamDistance)
+
+mean(df.Ancova.Size$DepthBin[df.Ancova.Size$StreamDistance==0])
+mean(df.Ancova.Size$DepthBin[df.Ancova.Size$StreamDistance==2])
+mean(df.Ancova.Size$DepthBin[df.Ancova.Size$StreamDistance==5])
+mean(df.Ancova.Size$DepthBin[df.Ancova.Size$StreamDistance==10])
+AIC(model.ssd0)
+AIC(model.ssd5)
+AIC(model.ssd10)
+AIC(model.ssd15)
+
+model.ssd0$
+
+
+
 mean(df.Ancova.Hole$APresence)
 sd(df.Ancova.Hole$APresence)
 
@@ -160,6 +125,38 @@ sd(data.vsur$Alive)
 mean(data.vsur$Total)
 sd(data.vsur$Total)
 
+#### Clam Size #################################################################
+  #Stream Distance and Depth
+model.sd <- glm(Sizemm~StreamDistance*DepthBin, data=df.Ancova.Size, family=gaussian (link = "log"))
+Anova(model.sd, type="III", test="F")
+summary(model.sd)
+marginal.d <-  emmeans(model.d,
+                       ~ StreamDistance*DepthBin)
+pairs(marginal.d,
+      adjust="tukey")
+cld(marginal.d,
+    alpha=0.05,
+    Letters=letters,  ### Use lower-case letters for .group
+    adjust="tukey")   ### Tukey adjustment for multiple comparisons
+
+boxplot(df.Ancova.Size$Sizemm~df.Ancova.Size$StreamDistance)
+boxplot(df.Ancova.Size$Sizemm~df.Ancova.Size$DepthBin)
+ #Tidal Elevation and PC1
+model.sd <- glm(Sizemm~PC1*Elevation, data=df.Ancova.Size, family=gaussian (link = "log"))
+Anova(model.sd, type="III", test="F")
+summary(model.sd)
+marginal.d <-  emmeans(model.d,
+                       ~ StreamDistance*DepthBin)
+pairs(marginal.d,
+      adjust="tukey")
+cld(marginal.d,
+    alpha=0.05,
+    Letters=letters,  ### Use lower-case letters for .group
+    adjust="tukey")   ### Tukey adjustment for multiple comparisons
+
+
+### Further Sediment Analysis_Focusing on Gravel ###############################
+df.sediment$gravel <- df.sediment$Sediment4000+df.sediment$Sediment2000
 
 
 
